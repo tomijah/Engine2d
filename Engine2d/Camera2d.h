@@ -28,6 +28,7 @@ namespace Engine2d
 		float getScale() { return scale; }
 
 		glm::mat4 getProjectionMatrix();
+		glm::mat4 getTranslationAndScaleMatrix();
 
 		void translatePosition(glm::vec2 vector);
 

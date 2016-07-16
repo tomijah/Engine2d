@@ -104,8 +104,6 @@ namespace Engine2d
 		glUniformMatrix4fv(glGetUniformLocation(this->Program, name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-
-
 	static	GLuint CreateShader(const std::string& code, GLenum shaderType) {
 		
 		GLuint id = glCreateShader(shaderType);

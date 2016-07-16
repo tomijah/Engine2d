@@ -22,12 +22,24 @@ namespace Engine2d
 	glm::mat4 Camera2d::getProjectionMatrix()
 	{
 		if (needsMatrixUpdate) {
-			projectionMatrix = glm::scale(glm::translate(orthoMatrix, glm::vec3(-position.x + _screenWidth / 2, -position.y + _screenHeight / 2, 0.0f)), glm::vec3(scale, scale, 0.0f));
+			projectionMatrix = orthoMatrix;
+			projectionMatrix = glm::translate(projectionMatrix, glm::vec3(_screenWidth / 2, _screenHeight / 2, 0.0f));
+			projectionMatrix = glm::scale(projectionMatrix, glm::vec3(scale, scale, 0.0f));
+			projectionMatrix = glm::translate(projectionMatrix, glm::vec3(-position.x, -position.y, 0.0f));
 			needsMatrixUpdate = false;
 		}
 
 		return projectionMatrix;
 	}
+
+	glm::mat4 Camera2d::getTranslationAndScaleMatrix() {
+		glm::mat4 result(1.0f);
+		result = glm::translate(result, glm::vec3(position.x, position.y, 0.0f));
+		result = glm::scale(result, glm::vec3(1/scale,1/scale, 0.0f));
+		result = glm::translate(result, glm::vec3(-_screenWidth / 2, -_screenHeight / 2, 0.0f));
+		return result;
+	}
+
 	void Camera2d::translatePosition(glm::vec2 vector)
 	{
 		position += vector;

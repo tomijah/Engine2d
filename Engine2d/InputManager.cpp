@@ -1,5 +1,5 @@
 #include "InputManager.h"
-
+#include <iostream>
 
 namespace Engine2d {
 	InputManager::InputManager() : _mouseCoords(0.0f)
@@ -30,6 +30,11 @@ namespace Engine2d {
 		_mouseCoords.y = y;
 	}
 
+	void InputManager::setWheel(float wheel)
+	{
+		this->wheel = wheel;
+	}
+
 	bool InputManager::isKeyDown(unsigned int keyID) {
 		auto it = _keyMap.find(keyID);
 		if (it != _keyMap.end()) {
@@ -49,7 +54,15 @@ namespace Engine2d {
 
 	glm::vec2 InputManager::getMouseCoords(Camera2d * camera)
 	{
-		return camera->getFovLeftTop() + getMouseCoords();
+		glm::vec4 mouseCoords = glm::vec4(getMouseCoords(), 0.0f, 1.0f);
+		glm::mat4 inverserProjection = camera->getTranslationAndScaleMatrix();
+		glm::vec4 worldCoords = inverserProjection * mouseCoords;
+		return glm::vec2(worldCoords.x, worldCoords.y);
+	}
+
+	float InputManager::getWheel()
+	{
+		return wheel;
 	}
 
 	bool InputManager::wasKeyDown(unsigned int keyID) {

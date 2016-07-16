@@ -33,7 +33,7 @@ namespace Engine2d {
 	void Display::HandleInput(InputManager * inputManager)
 	{
 		SDL_Event e;
-
+		inputManager->setWheel(0.0f);
 		while (SDL_PollEvent(&e)) {
 			switch (e.type)
 			{
@@ -55,6 +55,8 @@ namespace Engine2d {
 			case SDL_MOUSEBUTTONUP:
 				inputManager->releaseKey(e.button.button);
 				break;
+			case SDL_MOUSEWHEEL:
+				inputManager->setWheel((float)e.wheel.y);
 			default:
 				break;
 			}

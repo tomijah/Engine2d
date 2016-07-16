@@ -7,6 +7,7 @@
 #include "ParticlePool.h"
 #include "GrayScaleEffect.h"
 #include "ShakeEffect.h"
+#include "FireSource.h"
 
 using namespace Engine2d;
 
@@ -30,6 +31,9 @@ private:
 	ParticlePool * fire;
 	GrayScaleEffect * grayScale;
 	ShakeEffect * shake;
+	FireSource * fireSource;
+	float fireRate = 100.0f;
+	float scale = 1.0f;
 	void drawInternal();
 };
 

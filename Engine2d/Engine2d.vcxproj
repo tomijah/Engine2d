@@ -149,12 +149,14 @@
     <ClInclude Include="Camera2d.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="FireSource.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="GrayScaleEffect.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ParticlePool.h" />
     <ClInclude Include="PostProcessor.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShakeEffect.h" />
     <ClInclude Include="Sprite.h" />
@@ -168,6 +170,7 @@
     <ClCompile Include="Camera2d.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="FireSource.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="GrayScaleEffect.cpp" />
@@ -181,6 +184,7 @@
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureCache.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\gray.frag">

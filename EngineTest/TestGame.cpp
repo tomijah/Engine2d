@@ -3,7 +3,7 @@
 #include "TextureCache.h"
 #include <glm/glm.hpp>
 #include <sstream>
-#include "Utils.h"
+#include <Utils.h>
 
 using namespace std;
 using namespace Engine2d;
@@ -27,9 +27,10 @@ void TestGame::Update()
 	smoke->Update(deltaTime);
 	fire->Update(deltaTime);
 	postprocessor->Update(totalTime, deltaTime);
+	fireSource->Update(deltaTime);
 
 	if (inputManager->isKeyPressed(SDL_BUTTON_LEFT)) {
-		shake->EnableFor(500.0f);
+		shake->EnableFor(200.0f);
 		for (int i = 0; i < 15; i++) {
 			smoke->AddParticle(glm::vec2(0.0f, -0.1f * getRandom()),
 				inputManager->getMouseCoords(camera) + glm::vec2(getRandom(-30.0f, 30.0f),
@@ -37,28 +38,43 @@ void TestGame::Update()
 		}
 	}
 
-	if (inputManager->isKeyDown(SDL_BUTTON_RIGHT)) {
+	/*if (inputManager->isKeyDown(SDL_BUTTON_RIGHT)) {
 		for (int i = 0; i < 1; i++) {
 			fire->AddParticle(
 				glm::vec2(0.0f, -0.1f * getRandom()),
 				inputManager->getMouseCoords(camera) + glm::vec2(getRandom(-10.0f, 10.0f),
 					getRandom(-10.0f, 10.0f)));
 		}
-	}
+	}*/
 
 	if (inputManager->isKeyDown(SDLK_d)) {
-		camera->translatePosition(glm::vec2(0.1f * deltaTime, 0.0f));
+		camera->translatePosition(glm::vec2(0.2f * deltaTime, 0.0f));
 	}
 	if (inputManager->isKeyDown(SDLK_a)) {
-		camera->translatePosition(glm::vec2(-0.1f * deltaTime, 0.0f));
+		camera->translatePosition(glm::vec2(-0.2f * deltaTime, 0.0f));
 	}
 
 	if (inputManager->isKeyDown(SDLK_w)) {
-		camera->translatePosition(glm::vec2(0.0f, -0.1f * deltaTime));
+		camera->translatePosition(glm::vec2(0.0f, -0.2f * deltaTime));
 	}
 
 	if (inputManager->isKeyDown(SDLK_s)) {
-		camera->translatePosition(glm::vec2(0.0f, 0.1f * deltaTime));
+		camera->translatePosition(glm::vec2(0.0f, 0.2f * deltaTime));
+	}
+
+	if (inputManager->isKeyDown(SDLK_EQUALS)) {
+		fireRate += 0.1f;
+		fireSource->SetRate(fireRate);
+	}
+
+	if (inputManager->isKeyDown(SDLK_MINUS)) {
+		fireRate = glm::max(fireRate - 0.1f, 0.0f);
+		fireSource->SetRate(fireRate);
+	}
+
+	if (inputManager->getWheel() != 0.0f) {
+		scale = glm::max(scale + 0.1f * inputManager->getWheel(), 0.0f);
+		camera->setScale(scale);
 	}
 
 	if (inputManager->isKeyPressed(SDLK_SPACE)) {
@@ -67,6 +83,15 @@ void TestGame::Update()
 		}
 		else {
 			grayScale->Enable();
+		}
+	}
+
+	if (inputManager->isKeyPressed(SDLK_f)) {
+		if (fireSource->IsBurning()) {
+			fireSource->PutOut();
+		}
+		else {
+			fireSource->Light(fireRate);
 		}
 	}
 }
@@ -108,8 +133,10 @@ void TestGame::Initialize()
 	textRenderer = new TextRenderer(this->width, this->height);
 	textRenderer->Load("fonts/Capture_it.ttf",25);
 	smoke = new ParticlePool(400, 2500.0f, "s1", glm::vec2(60.0f, 60.0f), glm::vec2(0.00005f, 0.0f));
-	fire = new ParticlePool(1500, 2000.0f, "f1", glm::vec2(30.0f, 30.0f), glm::vec2(0.00005f, 0.0f));
+	fire = new ParticlePool(1500, 1000.0f, "f1", glm::vec2(30.0f, 30.0f), glm::vec2(0.0f, 0.0f));
 	fire->SeTColor(glm::vec3(1.0f, 0.2f, 0.0f));
+	fireSource = new FireSource(fire, glm::vec2(600.0f, 400.0f));
+	fireSource->Light(100.0f);
 	smoke->SeTColor(glm::vec3(0.2f, 0.2f, 0.2f));
 }
 
@@ -117,6 +144,7 @@ void TestGame::drawInternal()
 {
 	renderer->Render("1", glm::vec2(0.0f, 0.0f), glm::vec2(800, 600), glm::vec2(0, 0));
 	renderer->Render("a", glm::vec2(100.0f), glm::vec2(125 / 4, 250 / 8), glm::vec2(0, 0), 0.0f, glm::vec4(1.0f), glm::vec4(0.0f, 0.0f, 1.0f / 4.0f, 1.0f / 8.0f));
+	renderer->Render2(0, glm::vec2(100.0f, 400.0f), glm::vec2(100.0f, 50.0f), glm::vec2(0), 0, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
 
 	smoke->Draw(camera);
 	fire->Draw(camera);
