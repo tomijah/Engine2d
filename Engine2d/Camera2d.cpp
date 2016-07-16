@@ -14,6 +14,11 @@ namespace Engine2d
 	{
 	}
 
+	glm::vec2 Camera2d::getFovLeftTop()
+	{
+		return getPosition() - glm::vec2(_screenWidth / 2, _screenHeight / 2);
+	}
+
 	glm::mat4 Camera2d::getProjectionMatrix()
 	{
 		if (needsMatrixUpdate) {
@@ -22,5 +27,10 @@ namespace Engine2d
 		}
 
 		return projectionMatrix;
+	}
+	void Camera2d::translatePosition(glm::vec2 vector)
+	{
+		position += vector;
+		needsMatrixUpdate = true;
 	}
 }

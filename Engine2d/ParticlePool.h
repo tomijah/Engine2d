@@ -30,14 +30,13 @@ namespace Engine2d
 			glm::vec2 gravity = glm::vec2(0));
 		~ParticlePool();
 		void Update(float deltaTime);
-		void Draw(SpriteRenderer * renderer);
-		void DrawFast(Camera2d * camera);
+		void Draw(Camera2d * camera);
 		void AddParticle(glm::vec2 velocity, glm::vec2 position);
 		void SeTColor(glm::vec3 color);
 	private:
 		void initBuffers();
 		Particle * particles;
-		Particle * lastInactive;
+		Particle * lastActivated;
 		int max;
 		float ttl;
 		glm::vec2 gravity;

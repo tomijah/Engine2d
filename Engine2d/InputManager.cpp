@@ -47,6 +47,11 @@ namespace Engine2d {
 		return false;
 	}
 
+	glm::vec2 InputManager::getMouseCoords(Camera2d * camera)
+	{
+		return camera->getFovLeftTop() + getMouseCoords();
+	}
+
 	bool InputManager::wasKeyDown(unsigned int keyID) {
 		auto it = _previousKeyMap.find(keyID);
 		if (it != _previousKeyMap.end()) {

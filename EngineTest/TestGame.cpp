@@ -26,31 +26,56 @@ void TestGame::Update()
 {
 	smoke->Update(deltaTime);
 	fire->Update(deltaTime);
+	postprocessor->Update(totalTime, deltaTime);
 
 	if (inputManager->isKeyPressed(SDL_BUTTON_LEFT)) {
+		shake->EnableFor(500.0f);
 		for (int i = 0; i < 15; i++) {
-			smoke->AddParticle(glm::vec2(0.0f, -0.1f * getRandom()), inputManager->getMouseCoords() + glm::vec2(getRandom(-30.0f,30.0f),getRandom(-30.0f, 30.0f)));
+			smoke->AddParticle(glm::vec2(0.0f, -0.1f * getRandom()),
+				inputManager->getMouseCoords(camera) + glm::vec2(getRandom(-30.0f, 30.0f),
+					getRandom(-30.0f, 30.0f)));
 		}
 	}
 
 	if (inputManager->isKeyDown(SDL_BUTTON_RIGHT)) {
 		for (int i = 0; i < 1; i++) {
-			fire->AddParticle(glm::vec2(0.0f, -0.1f * getRandom()), inputManager->getMouseCoords() + glm::vec2(getRandom(-10.0f, 10.0f), getRandom(-10.0f, 10.0f)));
+			fire->AddParticle(
+				glm::vec2(0.0f, -0.1f * getRandom()),
+				inputManager->getMouseCoords(camera) + glm::vec2(getRandom(-10.0f, 10.0f),
+					getRandom(-10.0f, 10.0f)));
+		}
+	}
+
+	if (inputManager->isKeyDown(SDLK_d)) {
+		camera->translatePosition(glm::vec2(0.1f * deltaTime, 0.0f));
+	}
+	if (inputManager->isKeyDown(SDLK_a)) {
+		camera->translatePosition(glm::vec2(-0.1f * deltaTime, 0.0f));
+	}
+
+	if (inputManager->isKeyDown(SDLK_w)) {
+		camera->translatePosition(glm::vec2(0.0f, -0.1f * deltaTime));
+	}
+
+	if (inputManager->isKeyDown(SDLK_s)) {
+		camera->translatePosition(glm::vec2(0.0f, 0.1f * deltaTime));
+	}
+
+	if (inputManager->isKeyPressed(SDLK_SPACE)) {
+		if (grayScale->IsEnabled()) {
+			grayScale->Disable();
+		}
+		else {
+			grayScale->Enable();
 		}
 	}
 }
 
 void TestGame::Draw()
 {
-	if (false) {
-		postprocessor->StartRecording();
-		drawInternal();
-		postprocessor->StopRecording();
-		postprocessor->RenderWithShader(totalTime);
-	}
-	else {
-		drawInternal();
-	}
+	postprocessor->Start();
+	drawInternal();
+	postprocessor->Render();
 
 	std::stringstream ss;
 	ss << "Fps: " << fps;
@@ -63,7 +88,11 @@ void TestGame::Draw()
 
 void TestGame::Initialize()
 {
-	postprocessor = new PostProcessor(new Shader("shaders/effect"));
+	grayScale = new GrayScaleEffect(this->width, this->height);
+	shake = new ShakeEffect(this->width, this->height);
+	postprocessor = new PostProcessor();
+	postprocessor->AddEffect(this->grayScale);
+	postprocessor->AddEffect(this->shake);
 	camera = new Camera2d(this->width, this->height);
 	camera->setPosition(glm::vec2(this->width / 2, this->height / 2));
 	shader = new Shader("shaders/spriteRenderer");
@@ -89,7 +118,7 @@ void TestGame::drawInternal()
 	renderer->Render("1", glm::vec2(0.0f, 0.0f), glm::vec2(800, 600), glm::vec2(0, 0));
 	renderer->Render("a", glm::vec2(100.0f), glm::vec2(125 / 4, 250 / 8), glm::vec2(0, 0), 0.0f, glm::vec4(1.0f), glm::vec4(0.0f, 0.0f, 1.0f / 4.0f, 1.0f / 8.0f));
 
-	smoke->DrawFast(camera);
-	fire->DrawFast(camera);
+	smoke->Draw(camera);
+	fire->Draw(camera);
 }
 

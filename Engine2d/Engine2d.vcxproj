@@ -148,12 +148,15 @@
   <ItemGroup>
     <ClInclude Include="Camera2d.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="FileReader.h" />
+    <ClInclude Include="GrayScaleEffect.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ParticlePool.h" />
     <ClInclude Include="PostProcessor.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShakeEffect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="TextRenderer.h" />
@@ -164,12 +167,15 @@
   <ItemGroup>
     <ClCompile Include="Camera2d.cpp" />
     <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="FileReader.cpp" />
+    <ClCompile Include="GrayScaleEffect.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ParticlePool.cpp" />
     <ClCompile Include="PostProcessor.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShakeEffect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
@@ -177,13 +183,13 @@
     <ClCompile Include="TextureCache.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\effect.frag">
+    <None Include="shaders\gray.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="shaders\effect.geom">
+    <None Include="shaders\gray.geom">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="shaders\effect.vert">
+    <None Include="shaders\gray.vert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="shaders\particles.frag">
@@ -193,6 +199,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="shaders\particles.vert">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="shaders\shake.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="shaders\shake.geom">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="shaders\shake.vert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="shaders\spriteRenderer.frag">

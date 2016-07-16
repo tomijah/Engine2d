@@ -14,8 +14,6 @@ namespace Engine2d
 		virtual void Update() = 0;
 		virtual void Draw() = 0;
 		virtual void Initialize() = 0;
-	private:
-		Display* _display;
 	protected:
 		InputManager* inputManager;
 		float fps;
@@ -23,5 +21,6 @@ namespace Engine2d
 		float deltaTime;
 		int width;
 		int height;
+		Display* _display;
 	};
 }

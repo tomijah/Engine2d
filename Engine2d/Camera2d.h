@@ -8,18 +8,29 @@ namespace Engine2d
 	{
 	public:
 		Camera2d(int screenWidth, int screenHeight);
+
 		~Camera2d();
+
 		void setPosition(glm::vec2 & newPosition) {
 			position = newPosition;
 			needsMatrixUpdate = true;
 		}
+
+		glm::vec2 getFovLeftTop();
+
 		glm::vec2 getPosition() { return position; }
+
 		void setScale(float & newScale) {
 			scale = newScale;
 			needsMatrixUpdate = true;
 		}
+
 		float getScale() { return scale; }
+
 		glm::mat4 getProjectionMatrix();
+
+		void translatePosition(glm::vec2 vector);
+
 	private:
 		int _screenWidth;
 		int _screenHeight;

@@ -63,6 +63,15 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GrayScaleEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakeEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameBase.cpp">
@@ -104,6 +113,15 @@
     <ClCompile Include="ParticlePool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GrayScaleEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakeEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\spriteRenderer.frag">
@@ -124,15 +142,6 @@
     <None Include="shaders\text.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\effect.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\effect.geom">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\effect.vert">
-      <Filter>shaders</Filter>
-    </None>
     <None Include="shaders\particles.frag">
       <Filter>shaders</Filter>
     </None>
@@ -140,6 +149,24 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\particles.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\gray.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\gray.geom">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\gray.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\shake.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\shake.geom">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\shake.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

@@ -4,11 +4,7 @@ out vec4 color;
 
 uniform sampler2D screenTexture;
 
-vec4 textureColor(){
-	return texture(screenTexture, TexCoords);
-}
-
 void main()
 { 
-	color = textureColor();
+	color = texture(screenTexture, TexCoords);
 }

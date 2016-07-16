@@ -9,7 +9,7 @@ namespace Engine2d
 	{
 		particles = new Particle[max];
 		renderData = new ParticleRenderData[max];
-		lastInactive = particles;
+		lastActivated = nullptr;
 		color = glm::vec3(1.0f);
 		initBuffers();
 	}
@@ -39,31 +39,7 @@ namespace Engine2d
 		}
 	}
 
-	void ParticlePool::Draw(SpriteRenderer * renderer)
-	{
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		renderer->UseShader();
-		glActiveTexture(GL_TEXTURE0);
-		TextureCache::getTexture(textureName)->Bind();
-		int drawn = 0;
-		Particle * current = &particles[0];
-		int loops = max;
-		while (loops) {
-			if (current->ttl > 0) {
-				renderer->RenderConstantState(current->position, size, size / 2.0f, 0.0f, glm::vec4(1.0f, 0.2f, 0.0f, current->ttl / ttl));
-				drawn++;
-			}
-			
-			current++;
-			loops--;
-		}
-
-		//std::cout << drawn << std::endl;
-
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-
-	void ParticlePool::DrawFast(Camera2d * camera)
+	void ParticlePool::Draw(Camera2d * camera)
 	{
 		if (!toDraw) {
 			return;
@@ -105,18 +81,43 @@ namespace Engine2d
 
 	void ParticlePool::AddParticle(glm::vec2 velocity, glm::vec2 position)
 	{
-		Particle * current = &particles[0];
-		int loops = max;
-		while (loops) {
-			if (current->ttl <= 0) {
-				current->velocity = velocity;
-				current->ttl = ttl;
-				current->position = position;
-				break;
-			}
+		Particle * current;
+		Particle * toActivate = nullptr;
+		if (lastActivated != nullptr) {
+			long offset = lastActivated - particles;
+			int loopsFromOffset = max - offset;
 
-			current++;
-			loops--;
+			current = lastActivated;
+			while (loopsFromOffset) {
+				if (current->ttl <= 0) {
+					toActivate = current;
+					break;
+				}
+
+				current++;
+				loopsFromOffset--;
+			}
+		}
+
+		if (toActivate == nullptr) {
+			current = particles;
+			int loops = max;
+			while (loops) {
+				if (current->ttl <= 0) {
+					toActivate = current;
+					break;
+				}
+
+				current++;
+				loops--;
+			}
+		}
+
+		if (toActivate != nullptr) {
+			toActivate->velocity = velocity;
+			toActivate->ttl = ttl;
+			toActivate->position = position;
+			lastActivated = toActivate;
 		}
 	}
 

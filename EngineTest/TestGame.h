@@ -5,6 +5,8 @@
 #include "TextRenderer.h"
 #include "PostProcessor.h"
 #include "ParticlePool.h"
+#include "GrayScaleEffect.h"
+#include "ShakeEffect.h"
 
 using namespace Engine2d;
 
@@ -26,6 +28,8 @@ private:
 	PostProcessor * postprocessor;
 	ParticlePool * smoke;
 	ParticlePool * fire;
+	GrayScaleEffect * grayScale;
+	ShakeEffect * shake;
 	void drawInternal();
 };
 

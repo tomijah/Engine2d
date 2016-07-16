@@ -3,9 +3,8 @@
 
 namespace Engine2d
 {
-	PostProcessor::PostProcessor(Shader * shader)
+	PostProcessor::PostProcessor()
 	{
-		_shader = shader;
 		glGenFramebuffers(1, &_fbo);
 		glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 
@@ -61,31 +60,78 @@ namespace Engine2d
 	PostProcessor::~PostProcessor()
 	{
 		glDeleteFramebuffers(1, &_fbo);
-		delete _shader;
 	}
 
-	void PostProcessor::StartRecording()
+	void PostProcessor::Start()
 	{
+		activeEffects.clear();
+		for (auto const& value : effects) {
+			if (value->IsEnabled()) {
+				activeEffects.push_back(value);
+			}
+		}
+
+		if (activeEffects.empty()) {
+			return;
+		}
+
 		glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void PostProcessor::StopRecording()
+	void PostProcessor::Render()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		if (activeEffects.empty()) {
+			return;
+		}
+
+		//std::cout << "not empty" << std::endl;
+
+		GLuint lastTextureId = _texture;
+
+		for (auto const& value : activeEffects) {
+			if (activeEffects.back() == value) {
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				
+				value->UseShader();
+
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, lastTextureId);
+
+				glBindVertexArray(_vao);
+				glDrawArrays(GL_TRIANGLES, 0, 3);
+				glBindVertexArray(0);
+			}
+			else {
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, value->TextureId, 0);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				value->UseShader();
+
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, lastTextureId);
+
+				glBindVertexArray(_vao);
+				glDrawArrays(GL_TRIANGLES, 0, 3);
+				glBindVertexArray(0);
+
+				lastTextureId = value->TextureId;
+			}
+		}
+	}
+	void PostProcessor::AddEffect(Effect *effect)
+	{
+		effects.push_back(effect);
 	}
 
-	void PostProcessor::RenderWithShader(float time)
+	void PostProcessor::Update(float gameTime, float delta)
 	{
-		_shader->Use();
-
-		_shader->SetFloat("time", time);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, _texture);
-
-		glBindVertexArray(_vao);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glBindVertexArray(0);
+		for (auto const& value : effects) {
+			if (value->IsEnabled()) {
+				value->Update(gameTime, delta);
+			}
+		}
 	}
+
 }
