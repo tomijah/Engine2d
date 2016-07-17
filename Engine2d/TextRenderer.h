@@ -9,6 +9,8 @@
 
 namespace Engine2d 
 {
+	// from http://learnopengl.com/
+
 	struct Character {
 		GLuint TextureID;   // ID handle of the glyph texture
 		glm::ivec2 Size;    // Size of glyph

@@ -79,7 +79,7 @@ namespace Engine2d
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	void ParticlePool::AddParticle(glm::vec2 velocity, glm::vec2 position)
+	bool ParticlePool::AddParticle(glm::vec2 velocity, glm::vec2 position)
 	{
 		Particle * current;
 		Particle * toActivate = nullptr;
@@ -118,6 +118,10 @@ namespace Engine2d
 			toActivate->ttl = ttl;
 			toActivate->position = position;
 			lastActivated = toActivate;
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 

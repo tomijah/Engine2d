@@ -38,14 +38,14 @@ void TestGame::Update()
 		}
 	}
 
-	/*if (inputManager->isKeyDown(SDL_BUTTON_RIGHT)) {
+	if (inputManager->isKeyDown(SDL_BUTTON_RIGHT)) {
 		for (int i = 0; i < 1; i++) {
 			fire->AddParticle(
 				glm::vec2(0.0f, -0.1f * getRandom()),
 				inputManager->getMouseCoords(camera) + glm::vec2(getRandom(-10.0f, 10.0f),
 					getRandom(-10.0f, 10.0f)));
 		}
-	}*/
+	}
 
 	if (inputManager->isKeyDown(SDLK_d)) {
 		camera->translatePosition(glm::vec2(0.2f * deltaTime, 0.0f));
@@ -144,7 +144,7 @@ void TestGame::drawInternal()
 {
 	renderer->Render("1", glm::vec2(0.0f, 0.0f), glm::vec2(800, 600), glm::vec2(0, 0));
 	renderer->Render("a", glm::vec2(100.0f), glm::vec2(125 / 4, 250 / 8), glm::vec2(0, 0), 0.0f, glm::vec4(1.0f), glm::vec4(0.0f, 0.0f, 1.0f / 4.0f, 1.0f / 8.0f));
-	renderer->Render2(0, glm::vec2(100.0f, 400.0f), glm::vec2(100.0f, 50.0f), glm::vec2(0), 0, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
+	renderer->Render2(0, glm::vec2(100.0f, 400.0f), glm::vec2(totalTime * 0.1f, 50.0f), glm::vec2(0), 0, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
 
 	smoke->Draw(camera);
 	fire->Draw(camera);

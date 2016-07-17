@@ -20,10 +20,7 @@ namespace Engine2d {
 			toEmit += deltaTime / (1000.0f / _rate);
 			
 			while (toEmit >= 1) {
-				_pool->AddParticle(
-					glm::vec2(0.0f, -0.1f * getRandom()),
-					_position + glm::vec2(getRandom(-10.0f, 10.0f),
-						getRandom(-10.0f, 10.0f)));
+				_pool->AddParticle(glm::vec2(0.0f, -0.1f * getRandom()), _position + glm::vec2(getRandom(-10.0f, 10.0f), getRandom(-10.0f, 10.0f)));
 				toEmit -= 1.0f;
 			}
 		}

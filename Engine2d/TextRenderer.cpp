@@ -1,3 +1,5 @@
+// from http://learnopengl.com/
+
 #include "TextRenderer.h"
 #include <iostream>
 

@@ -10,13 +10,13 @@ namespace Engine2d
 {
 	struct Particle {
 		glm::vec2 position, velocity;
-		float ttl;
+		float ttl = 0;
 	};
 
 	struct ParticleRenderData
 	{
 		glm::vec2 position;
-		float ttl;
+		float ttl = 0;
 	};
 
 	class ParticlePool
@@ -31,7 +31,7 @@ namespace Engine2d
 		~ParticlePool();
 		void Update(float deltaTime);
 		void Draw(Camera2d * camera);
-		void AddParticle(glm::vec2 velocity, glm::vec2 position);
+		bool AddParticle(glm::vec2 velocity, glm::vec2 position);
 		void SeTColor(glm::vec3 color);
 	private:
 		void initBuffers();
