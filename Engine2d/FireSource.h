@@ -14,6 +14,7 @@ namespace Engine2d
 		void PutOut();
 		bool IsBurning() { return _isBurning; }
 		void SetRate(float rate) { _rate = rate; }
+		void SetPosition(glm::vec2 position) { _position = position; }
 	private:
 		ParticlePool * _pool;
 		glm::vec2 _position;

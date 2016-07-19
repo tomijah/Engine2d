@@ -8,7 +8,7 @@
 #include "GrayScaleEffect.h"
 #include "ShakeEffect.h"
 #include "FireSource.h"
-
+#include "Animation.h"
 using namespace Engine2d;
 
 class TestGame : public Engine2d::GameBase
@@ -32,8 +32,13 @@ private:
 	GrayScaleEffect * grayScale;
 	ShakeEffect * shake;
 	FireSource * fireSource;
-	float fireRate = 100.0f;
+	Animation * animation;
+	int dir = -1;
+	glm::vec2 playerPosition;
+	float fireRate = 50.0f;
 	float scale = 1.0f;
 	void drawInternal();
+	void handlePlayerAnimation();
+	bool locked = false;
 };
 
