@@ -87,11 +87,11 @@ namespace Engine2d
 		FT_Done_FreeType(ft);
 	}
 
-	void TextRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)
+	void TextRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec4 color)
 	{
 		// Activate corresponding render state	
 		this->TextShader.Use();
-		this->TextShader.SetVector3f("textColor", color);
+		this->TextShader.SetVector4f("textColor", color);
 		glActiveTexture(GL_TEXTURE0);
 		glBindVertexArray(this->VAO);
 

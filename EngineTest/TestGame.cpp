@@ -32,11 +32,9 @@ void TestGame::Update()
 
 	if (inputManager->isKeyPressed(SDL_BUTTON_LEFT)) {
 		shake->EnableFor(200.0f);
-		for (int i = 0; i < 15; i++) {
-			smoke->AddParticle(glm::vec2(0.0f, -0.1f * getRandom()),
-				inputManager->getMouseCoords(camera) + glm::vec2(getRandom(-30.0f, 30.0f),
-					getRandom(-30.0f, 30.0f)));
-		}
+		puff(playerPosition);
+		playerPosition = inputManager->getMouseCoords(camera);
+		puff(playerPosition);
 	}
 
 	if (inputManager->isKeyDown(SDL_BUTTON_RIGHT)) {
@@ -122,6 +120,9 @@ void TestGame::Draw()
 	std::stringstream ss;
 	ss << "Fps: " << fps;
 	textRenderer->RenderText(ss.str(), 5.0f, 5.0f, 1.0f);
+
+	//textRenderer->RenderText("Engine 2d demo", 600, 5, 1, glm::vec4(1, 1, 1, glm::sin(totalTime/200.0f) * 0.5f + 0.5f));
+
 
 	uiRenderer->Render("cur",
 		inputManager->getMouseCoords(),
@@ -219,6 +220,15 @@ void TestGame::handlePlayerAnimation()
 	}
 
 	//std::cout << transition.x << " " << transition.y << std::endl;
+}
+
+void TestGame::puff(glm::vec2 pos)
+{
+	for (int i = 0; i < 15; i++) {
+		smoke->AddParticle(glm::vec2(0.0f, -0.1f * getRandom()),
+			pos + glm::vec2(getRandom(-30.0f, 30.0f),
+				getRandom(-30.0f, 30.0f)));
+	}
 }
 
 void TestGame::Initialize()

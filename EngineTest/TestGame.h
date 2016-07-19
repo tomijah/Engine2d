@@ -39,6 +39,7 @@ private:
 	float scale = 1.0f;
 	void drawInternal();
 	void handlePlayerAnimation();
+	void puff(glm::vec2 pos);
 	bool locked = false;
 };
 
