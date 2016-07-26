@@ -1,13 +1,13 @@
 #pragma once
 #include <iostream>
-#include "Shader.h"
+#include "ShaderBase.h"
 
 namespace Engine2d
 {
 	class Effect
 	{
 	public:
-		Effect(std::string shaderName, int width, int height);
+		Effect(ShaderBase* shader, int width, int height);
 		~Effect();
 		void UseShader();
 		bool IsEnabled() { return _isEnabled; }
@@ -21,7 +21,7 @@ namespace Engine2d
 		float ttl = 0;
 		float time = 0;
 	protected:
-		Shader * _shader;
+		ShaderBase * _shader;
 		virtual void InternalUpdate(float gameTime) = 0;
 		virtual void SetUniforms() = 0;
 	};

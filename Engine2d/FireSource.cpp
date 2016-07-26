@@ -19,8 +19,8 @@ namespace Engine2d {
 		if (_isBurning && _rate > 0.0f) {
 			toEmit += deltaTime / (1000.0f / _rate);
 			
-			while (toEmit >= 1) {
-				_pool->AddParticle(glm::vec2(getRandom(-0.01,0.01), -0.1f * getRandom()), _position + glm::vec2(getRandom(-5.0f, 5.0f), getRandom(-10.0f, 10.0f)));
+			while (toEmit >= 1.0f) {
+				_pool->AddParticle(glm::vec2(getRandom(-0.01f,0.01f), -0.1f * getRandom()), _position + glm::vec2(getRandom(-5.0f, 5.0f), getRandom(-10.0f, 10.0f)));
 				toEmit -= 1.0f;
 			}
 		}

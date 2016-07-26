@@ -1,6 +1,7 @@
 #include "Shader.h"
 #include "FileReader.h"
 #include <vector>
+#include "Utils.h"
 
 namespace Engine2d
 {

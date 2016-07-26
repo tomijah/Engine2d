@@ -2,9 +2,9 @@
 
 namespace Engine2d
 {
-	Effect::Effect(std::string shaderName, int width, int height)
+	Effect::Effect(ShaderBase * shader, int width, int height)
 	{
-		_shader = new Shader(shaderName);
+		_shader = shader;
 		glGenTextures(1, &TextureId);
 		glBindTexture(GL_TEXTURE_2D, TextureId);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);

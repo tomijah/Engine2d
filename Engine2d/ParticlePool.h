@@ -4,7 +4,7 @@
 #include "SpriteRenderer.h"
 #include <random>
 #include "Camera2d.h"
-#include "Shader.h"
+#include "ShaderBase.h"
 
 namespace Engine2d
 {
@@ -27,7 +27,8 @@ namespace Engine2d
 			float ttl, 
 			std::string textureName, 
 			glm::vec2 size = glm::vec2(30.0f,30.0f),
-			glm::vec2 gravity = glm::vec2(0));
+			glm::vec2 gravity = glm::vec2(0),
+			bool additiveBlending = false);
 		~ParticlePool();
 		void Update(float deltaTime);
 		void Draw(Camera2d * camera);
@@ -46,8 +47,9 @@ namespace Engine2d
 		GLuint VAO;
 		GLuint VBO;
 		GLuint particlesVBO;
-		Shader * _shader;
+		ShaderBase * _shader;
 		int toDraw;
 		ParticleRenderData * renderData;
+		bool additive = false;
 	};
 }

@@ -15,4 +15,13 @@ namespace Engine2d
 		t->Generate(texturePath);
 		_textureMap[name] = t;
 	}
+	void TextureCache::releaseAll()
+	{
+		for (auto it = _textureMap.begin(); it != _textureMap.end(); ++it)
+		{
+			delete it->second;
+		}
+
+		_textureMap.clear();
+	}
 }

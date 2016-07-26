@@ -1,9 +1,9 @@
 #include "Camera2d.h"
-
+#include <iostream>
 
 namespace Engine2d
 {
-	Camera2d::Camera2d(int screenWidth, int screenHeight) : position(0.0f, 0.0f), projectionMatrix(1.0f), scale(1.0f), needsMatrixUpdate(1)
+	Camera2d::Camera2d(int screenWidth, int screenHeight) : position(0.0f, 0.0f), targetLocation(0.0f, 0.0f), projectionMatrix(1.0f), scale(1.0f), needsMatrixUpdate(1)
 	{
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
@@ -12,6 +12,17 @@ namespace Engine2d
 
 	Camera2d::~Camera2d()
 	{
+	}
+
+	void Camera2d::setPosition(glm::vec2 & newPosition)
+	{
+		if (Smooth) {
+			targetLocation = newPosition;
+		}
+		else {
+			position = newPosition;
+			needsMatrixUpdate = true;
+		}
 	}
 
 	glm::vec2 Camera2d::getFovLeftTop()
@@ -42,7 +53,30 @@ namespace Engine2d
 
 	void Camera2d::translatePosition(glm::vec2 vector)
 	{
-		position += vector;
-		needsMatrixUpdate = true;
+		if(Smooth)
+		{
+			targetLocation += vector;
+		}
+		else 
+		{
+			position += vector;
+			needsMatrixUpdate = true;
+		}
+	}
+	void Camera2d::Update(float deltaTime)
+	{
+		if (Smooth && targetLocation != position) {
+			glm::vec2 dist = targetLocation - position;
+			glm::vec2 speed = ((dist) / 150.0f) * deltaTime;
+			if (glm::length(dist) < 0.1f) {
+				position = targetLocation;
+			}
+			else 
+			{
+				position += speed;
+			}
+
+			needsMatrixUpdate = true;
+		}
 	}
 }

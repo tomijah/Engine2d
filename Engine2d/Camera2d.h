@@ -11,10 +11,7 @@ namespace Engine2d
 
 		~Camera2d();
 
-		void setPosition(glm::vec2 & newPosition) {
-			position = newPosition;
-			needsMatrixUpdate = true;
-		}
+		void setPosition(glm::vec2 & newPosition);
 
 		glm::vec2 getFovLeftTop();
 
@@ -31,12 +28,15 @@ namespace Engine2d
 		glm::mat4 getTranslationAndScaleMatrix();
 
 		void translatePosition(glm::vec2 vector);
+		void Update(float deltaTime);
+		bool Smooth = false;
 
 	private:
 		int _screenWidth;
 		int _screenHeight;
 		bool needsMatrixUpdate;
 		glm::vec2 position;
+		glm::vec2 targetLocation;
 		glm::mat4 orthoMatrix;
 		glm::mat4 projectionMatrix;
 		float scale;

@@ -35,10 +35,11 @@ namespace Engine2d
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		GLfloat vertices[] = {
-			// Pos        // Tex
+			// Pos      // Tex
+			-1.0f, 1.0f, 0.0f, 1.0f,
 			-1.0f, -1.0f, 0.0f, 0.0f,
-			3.0f,  -1.0f, 2.0f, 0.0f,
-			-1.0f,  3.0f, 0.0f, 2.0f,
+			1.0f, 1.0f, 1.0f, 1.0f,
+			1.0f, -1.0f, 1.0f, 0.0f
 		};
 
 		glGenVertexArrays(1, &_vao);
@@ -60,6 +61,7 @@ namespace Engine2d
 	PostProcessor::~PostProcessor()
 	{
 		glDeleteFramebuffers(1, &_fbo);
+		glDeleteTextures(1, &_texture);
 	}
 
 	void PostProcessor::Start()
@@ -77,7 +79,7 @@ namespace Engine2d
 
 		glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
 	void PostProcessor::Render()
@@ -100,12 +102,12 @@ namespace Engine2d
 				glBindTexture(GL_TEXTURE_2D, lastTextureId);
 
 				glBindVertexArray(_vao);
-				glDrawArrays(GL_TRIANGLES, 0, 3);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 				glBindVertexArray(0);
 			}
 			else {
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, value->TextureId, 0);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 				value->UseShader();
 
@@ -113,7 +115,7 @@ namespace Engine2d
 				glBindTexture(GL_TEXTURE_2D, lastTextureId);
 
 				glBindVertexArray(_vao);
-				glDrawArrays(GL_TRIANGLES, 0, 3);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 				glBindVertexArray(0);
 
 				lastTextureId = value->TextureId;

@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <sstream>
 #include <Utils.h>
+#include "SpriteRendererShader.h"
+#include "SdfTextShader.h"
 
 using namespace std;
 using namespace Engine2d;
@@ -17,13 +19,20 @@ TestGame::~TestGame()
 	delete renderer;
 	delete camera;
 	delete shader;
-	delete textRenderer;
+	delete txtShader;
 	delete uiRenderer;
 	delete postprocessor;
+	delete shake;
+	delete grayScale;
+	delete fireSource;
+	delete fire;
+	delete smoke;
+	TextureCache::releaseAll();
 }
 
 void TestGame::Update()
 {
+	camera->Update(deltaTime);
 	smoke->Update(deltaTime);
 	fire->Update(deltaTime);
 	postprocessor->Update(totalTime, deltaTime);
@@ -119,10 +128,11 @@ void TestGame::Draw()
 
 	std::stringstream ss;
 	ss << "Fps: " << fps;
-	textRenderer->RenderText(ss.str(), 5.0f, 5.0f, 1.0f);
 
-	//textRenderer->RenderText("Engine 2d demo", 600, 5, 1, glm::vec4(1, 1, 1, glm::sin(totalTime/200.0f) * 0.5f + 0.5f));
+	textR->Start();
+	textR->DrawString(ss.str(), glm::vec2(5.0f, 5.0f), 0.3f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
+	textR->Stop();
 
 	uiRenderer->Render("cur",
 		inputManager->getMouseCoords(),
@@ -131,8 +141,7 @@ void TestGame::Draw()
 
 void TestGame::drawInternal()
 {
-	renderer->Render("1", glm::vec2(0.0f, 0.0f), glm::vec2(800, 600), glm::vec2(0, 0));
-	
+	renderer->Render("1", glm::vec2(0.0f, 0.0f), glm::vec2(800, 600), glm::vec2(0, 0), 0, glm::vec4(1), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 	renderer->Render(
 		"a",
 		playerPosition,
@@ -141,12 +150,9 @@ void TestGame::drawInternal()
 		0.0f,
 		glm::vec4(1.0f),
 		animation->GetUV());
-		//glm::vec4(0.0f, 0.0f, 1.0f / 4.0f, 1.0f / 8.0f));
-	
-	renderer->Render2(0, glm::vec2(100.0f, 400.0f), glm::vec2(glm::abs(glm::sin(totalTime / 300.0f)* 400.0f), 50.0f), glm::vec2(0), 0, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
 
-	smoke->Draw(camera);
 	fire->Draw(camera);
+	smoke->Draw(camera);
 }
 
 void TestGame::handlePlayerAnimation()
@@ -218,8 +224,6 @@ void TestGame::handlePlayerAnimation()
 			dir = -1;
 		}
 	}
-
-	//std::cout << transition.x << " " << transition.y << std::endl;
 }
 
 void TestGame::puff(glm::vec2 pos)
@@ -239,26 +243,31 @@ void TestGame::Initialize()
 	postprocessor->AddEffect(this->grayScale);
 	postprocessor->AddEffect(this->shake);
 	camera = new Camera2d(this->width, this->height);
+	camera->Smooth = true;
 	camera->setPosition(glm::vec2(this->width / 2, this->height / 2));
-	shader = new Shader("shaders/spriteRenderer");
-	renderer = new SpriteRenderer(shader, camera);
+
 	Camera2d * uiCam = new Camera2d(this->width, this->height);
 	uiCam->setPosition(glm::vec2(this->width / 2, this->height / 2));
+
+	shader = new SpriteRendererShader();
+	txtShader = new SdfTextShader();
+	textR = new BitmapFontRenderer(txtShader, uiCam);
+	textR->Load("Arial", -18);
 	uiRenderer = new SpriteRenderer(shader, uiCam);
+	renderer = new SpriteRenderer(shader, camera);
+
 	TextureCache::preloadTexture("textures/cur.png", "cur");
 	TextureCache::preloadTexture("textures/flame1.jpg", "f1");
-	TextureCache::preloadTexture("textures/smoke.jpg", "s1");
-	TextureCache::preloadTexture("textures/1.jpg", "1");
+	TextureCache::preloadTexture("textures/smoke_particle.png", "s1");
+	TextureCache::preloadTexture("textures/tiles.png", "1");
 	TextureCache::preloadTexture("textures/anim.png", "a");
 	animation = new Animation(TextureCache::getTexture("a"), 4, 8, 100);
-	textRenderer = new TextRenderer(this->width, this->height);
-	textRenderer->Load("fonts/Capture_it.ttf",25);
 	smoke = new ParticlePool(400, 2500.0f, "s1", glm::vec2(60.0f, 60.0f), glm::vec2(0.00005f, 0.0f));
-	fire = new ParticlePool(1500, 1000.0f, "f1", glm::vec2(30.0f, 30.0f), glm::vec2(0.0f, 0.0f));
+	fire = new ParticlePool(1500, 1000.0f, "f1", glm::vec2(30.0f, 30.0f), glm::vec2(0.0f, 0.0f), true);
 	fire->SeTColor(glm::vec3(1.0f, 0.2f, 0.0f));
 	fireSource = new FireSource(fire, glm::vec2(600.0f, 400.0f));
-	
-	smoke->SeTColor(glm::vec3(0.2f, 0.2f, 0.2f));
+	smoke->SeTColor(glm::vec3(1.0f, 1.0f, 1.0f));
+
 	playerPosition.x = 100.0f;
 	playerPosition.y = 100.0f;
 }

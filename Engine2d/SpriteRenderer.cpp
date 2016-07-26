@@ -2,7 +2,7 @@
 
 namespace Engine2d
 {
-	SpriteRenderer::SpriteRenderer(Shader * shader, Camera2d * camera)
+	SpriteRenderer::SpriteRenderer(ShaderBase * shader, Camera2d * camera)
 	{
 		_shader = shader;
 		_camera = camera;

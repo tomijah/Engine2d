@@ -1,5 +1,6 @@
 #include <iostream>
 #include "TestGame.h"
+#include <string>
 
 using namespace Engine2d;
 

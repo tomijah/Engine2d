@@ -2,13 +2,15 @@
 #include "GameBase.h"
 #include "InputManager.h"
 #include "SpriteRenderer.h"
-#include "TextRenderer.h"
 #include "PostProcessor.h"
 #include "ParticlePool.h"
 #include "GrayScaleEffect.h"
 #include "ShakeEffect.h"
 #include "FireSource.h"
 #include "Animation.h"
+#include "ShaderBase.h"
+#include "BitmapFontRenderer.h"
+
 using namespace Engine2d;
 
 class TestGame : public Engine2d::GameBase
@@ -21,11 +23,12 @@ public:
 	virtual void Draw() override;
 	virtual void Initialize() override;
 private:
+	BitmapFontRenderer * textR;
 	SpriteRenderer * renderer;
 	SpriteRenderer * uiRenderer;
-	TextRenderer * textRenderer;
 	Camera2d * camera;
-	Shader * shader;
+	ShaderBase * shader;
+	ShaderBase * txtShader;
 	PostProcessor * postprocessor;
 	ParticlePool * smoke;
 	ParticlePool * fire;

@@ -13,8 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="shaders">
-      <UniqueIdentifier>{4488717d-38b1-4049-96ce-f3de07b45e41}</UniqueIdentifier>
+    <Filter Include="Header Files\shaders">
+      <UniqueIdentifier>{73d87d91-920e-47d3-b398-2af502e23e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{815172c8-19f1-42d2-b36b-f136f5bfe356}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,9 +54,6 @@
     <ClInclude Include="TextureCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PostProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,11 +75,29 @@
     <ClInclude Include="FireSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRendererShader.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapFontRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SdfTextShader.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticlesShader.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="GrayScaleShader.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakeShader.h">
+      <Filter>Header Files\shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +131,6 @@
     <ClCompile Include="TextureCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PostProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -140,52 +155,26 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="shaders\spriteRenderer.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\spriteRenderer.geom">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\spriteRenderer.vert">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\text.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\text.geom">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\text.vert">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\particles.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\particles.geom">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\particles.vert">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\gray.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\gray.geom">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\gray.vert">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\shake.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\shake.geom">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\shake.vert">
-      <Filter>shaders</Filter>
-    </None>
+    <ClCompile Include="SpriteRendererShader.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapFontRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SdfTextShader.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticlesShader.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="GrayScaleShader.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakeShader.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

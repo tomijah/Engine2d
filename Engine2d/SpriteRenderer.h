@@ -1,5 +1,5 @@
 #pragma once
-#include "Shader.h"
+#include "ShaderBase.h"
 #include "Texture.h"
 #include <glm/glm.hpp>
 #include "Camera2d.h"
@@ -11,7 +11,7 @@ namespace Engine2d
 	class SpriteRenderer
 	{
 	public:
-		SpriteRenderer(Shader * shader, Camera2d * camera);
+		SpriteRenderer(ShaderBase * shader, Camera2d * camera);
 		~SpriteRenderer();
 		void Render(
 			const char * textureName,
@@ -47,7 +47,7 @@ namespace Engine2d
 	private:
 		GLuint VAO;
 		GLuint VBO;
-		Shader * _shader;
+		ShaderBase * _shader;
 		Camera2d * _camera;
 	};
 }

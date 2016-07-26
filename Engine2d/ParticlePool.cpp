@@ -1,10 +1,11 @@
 #include "ParticlePool.h"
 #include <iostream>
 #include <vector>
+#include "ParticlesShader.h"
 
 namespace Engine2d
 {
-	ParticlePool::ParticlePool(int maxNum, float ttl, std::string textureName, glm::vec2 size, glm::vec2 gravity) :
+	ParticlePool::ParticlePool(int maxNum, float ttl, std::string textureName, glm::vec2 size, glm::vec2 gravity, bool additiveBlending) :
 		max(maxNum), gravity(gravity), ttl(ttl), textureName(textureName), size(size)
 	{
 		particles = new Particle[max];
@@ -12,11 +13,14 @@ namespace Engine2d
 		lastActivated = nullptr;
 		color = glm::vec3(1.0f);
 		initBuffers();
+		additive = additiveBlending;
 	}
 
 	ParticlePool::~ParticlePool()
 	{
 		delete[] particles;
+		delete[] renderData;
+		delete _shader;
 	}
 
 	void ParticlePool::Update(float deltaTime)
@@ -61,7 +65,9 @@ namespace Engine2d
 			return;
 		}
 
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		if (additive) {
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		}
 		_shader->Use();
 		glActiveTexture(GL_TEXTURE0);
 		TextureCache::getTexture(textureName)->Bind();
@@ -75,8 +81,9 @@ namespace Engine2d
 		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, drawn);
 		glBindVertexArray(0);
 
-		//std::cout << drawn << std::endl;
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		if (additive) {
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
 	}
 
 	bool ParticlePool::AddParticle(glm::vec2 velocity, glm::vec2 position)
@@ -134,7 +141,7 @@ namespace Engine2d
 
 	void ParticlePool::initBuffers()
 	{
-		_shader = new Shader("shaders/particles");
+		_shader = new ParticlesShader();
 		GLfloat vertices[] = {
 					// Pos			// Tex
 			-size.x / 2, size.y / 2, 0.0f, 1.0f,

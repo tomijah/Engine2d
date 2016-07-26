@@ -1,8 +1,9 @@
 #include "GrayScaleEffect.h"
+#include "GrayScaleShader.h"
 
 namespace Engine2d
 {
-	GrayScaleEffect::GrayScaleEffect(int width, int height) : Effect("shaders/gray", width, height)
+	GrayScaleEffect::GrayScaleEffect(int width, int height) : Effect(new GrayScaleShader(), width, height)
 	{
 	}
 	
