@@ -36,6 +36,7 @@ private:
 	ShakeEffect * shake;
 	FireSource * fireSource;
 	Animation * animation;
+	ShaderBase * sdfShader;
 	int dir = -1;
 	glm::vec2 playerPosition;
 	float fireRate = 50.0f;

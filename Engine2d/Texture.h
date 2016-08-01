@@ -8,7 +8,7 @@ namespace Engine2d
 	public:
 		Texture();
 		~Texture();
-		void Generate(const char* fileName);
+		void Generate(const char* fileName, bool linear = false, bool generateMipmap = true);
 		void Bind();
 		int Width;
 		int Height;

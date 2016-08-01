@@ -66,19 +66,23 @@ namespace Engine2d
 		glBindVertexArray(0);
 	}
 
-	void SpriteRenderer::RenderConstantState(glm::vec2 & position, glm::vec2 & size, glm::vec2 & origin, GLfloat rotation, glm::vec4 & color, glm::vec4 & destination)
+	void SpriteRenderer::RenderConstantState(ShaderBase * shader, glm::vec2 & position, glm::vec2 & size, glm::vec2 & origin, GLfloat rotation, glm::vec4 & color, glm::vec4 & destination)
 	{
+		if (shader == nullptr) {
+			shader = _shader;
+		}
+
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(position, 0.0f));
 		model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(-origin.x, -origin.y, 0.0f));
 		model = glm::scale(model, glm::vec3(size, 1.0f));
 
-		_shader->SetMatrix4("model", model);
-		_shader->SetVector4f("uvTransform", destination);
-		_shader->SetMatrix4("projection", _camera->getProjectionMatrix());
-		_shader->SetVector4f("spriteColor", color);
-		_shader->SetInteger("emptyTexture", 0);
+		shader->SetMatrix4("model", model);
+		shader->SetVector4f("uvTransform", destination);
+		shader->SetMatrix4("projection", _camera->getProjectionMatrix());
+		shader->SetVector4f("spriteColor", color);
+		shader->SetInteger("emptyTexture", 0);
 
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

@@ -9,12 +9,13 @@ namespace Engine2d
 		return _textureMap[name];
 	}
 
-	void TextureCache::preloadTexture(const GLchar * texturePath, std::string name)
+	void TextureCache::preloadTexture(const GLchar * texturePath, std::string name, bool linear, bool generateMipmap)
 	{
 		Texture* t = new Texture();
-		t->Generate(texturePath);
+		t->Generate(texturePath, linear);
 		_textureMap[name] = t;
 	}
+
 	void TextureCache::releaseAll()
 	{
 		for (auto it = _textureMap.begin(); it != _textureMap.end(); ++it)

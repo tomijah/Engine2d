@@ -33,7 +33,8 @@ namespace Engine2d
 		{
 			vec4 texColor = texture(fontAtlas, UV);
 			float dist = 1.0 - texColor.a;
-			float alpha = 1.0 - smoothstep(width, width + edge, dist);
+			float delta = fwidth(dist);
+			float alpha = 1.0 - smoothstep(width, width + delta, dist);
 			color = spriteColor * vec4(1.0, 1.0, 1.0, alpha);
 		}
 	);

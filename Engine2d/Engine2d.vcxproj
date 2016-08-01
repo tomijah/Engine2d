@@ -149,6 +149,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BitmapFontRenderer.h" />
     <ClInclude Include="Camera2d.h" />
+    <ClInclude Include="CircleShader.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="FireSource.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="ParticlePool.h" />
     <ClInclude Include="ParticlesShader.h" />
     <ClInclude Include="PostProcessor.h" />
+    <ClInclude Include="SdfShapeShader.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="ShakeEffect.h" />
@@ -176,6 +178,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BitmapFontRenderer.cpp" />
     <ClCompile Include="Camera2d.cpp" />
+    <ClCompile Include="CircleShader.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="FireSource.cpp" />
@@ -187,6 +190,7 @@
     <ClCompile Include="ParticlePool.cpp" />
     <ClCompile Include="ParticlesShader.cpp" />
     <ClCompile Include="PostProcessor.cpp" />
+    <ClCompile Include="SdfShapeShader.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="ShakeEffect.cpp" />

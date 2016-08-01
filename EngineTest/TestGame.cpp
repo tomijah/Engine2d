@@ -6,6 +6,8 @@
 #include <Utils.h>
 #include "SpriteRendererShader.h"
 #include "SdfTextShader.h"
+#include "SdfShapeShader.h"
+#include "CircleShader.h"
 
 using namespace std;
 using namespace Engine2d;
@@ -27,6 +29,7 @@ TestGame::~TestGame()
 	delete fireSource;
 	delete fire;
 	delete smoke;
+	delete sdfShader;
 	TextureCache::releaseAll();
 }
 
@@ -90,7 +93,14 @@ void TestGame::Update()
 	}
 
 	if (inputManager->getWheel() != 0.0f) {
-		scale = glm::max(scale + 0.1f * inputManager->getWheel(), 0.0f);
+		if (inputManager->getWheel() > 0.0f) {
+			scale = scale * 2;
+		}
+		else {
+			scale = scale / 2;
+		}
+
+		scale = glm::max(scale, 0.0f);
 		camera->setScale(scale);
 	}
 
@@ -130,7 +140,7 @@ void TestGame::Draw()
 	ss << "Fps: " << fps;
 
 	textR->Start();
-	textR->DrawString(ss.str(), glm::vec2(5.0f, 5.0f), 0.3f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	textR->DrawString(ss.str(), glm::vec2(5.0f, 5.0f), 0.4f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 	textR->Stop();
 
@@ -153,6 +163,11 @@ void TestGame::drawInternal()
 
 	fire->Draw(camera);
 	smoke->Draw(camera);
+
+	//TextureCache::getTexture("circle")->Bind();
+	sdfShader->Use();
+	renderer->RenderConstantState(sdfShader, glm::vec2(200, 100), glm::vec2(120, 120), glm::vec2(60, 60), 0.0f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
 }
 
 void TestGame::handlePlayerAnimation()
@@ -251,6 +266,7 @@ void TestGame::Initialize()
 
 	shader = new SpriteRendererShader();
 	txtShader = new SdfTextShader();
+	sdfShader = new CircleShader();
 	textR = new BitmapFontRenderer(txtShader, uiCam);
 	textR->Load("Arial", -18);
 	uiRenderer = new SpriteRenderer(shader, uiCam);
@@ -261,6 +277,7 @@ void TestGame::Initialize()
 	TextureCache::preloadTexture("textures/smoke_particle.png", "s1");
 	TextureCache::preloadTexture("textures/tiles.png", "1");
 	TextureCache::preloadTexture("textures/anim.png", "a");
+	TextureCache::preloadTexture("textures/circle.png", "circle", true, true);
 	animation = new Animation(TextureCache::getTexture("a"), 4, 8, 100);
 	smoke = new ParticlePool(400, 2500.0f, "s1", glm::vec2(60.0f, 60.0f), glm::vec2(0.00005f, 0.0f));
 	fire = new ParticlePool(1500, 1000.0f, "f1", glm::vec2(30.0f, 30.0f), glm::vec2(0.0f, 0.0f), true);

@@ -20,7 +20,7 @@ namespace Engine2d
 		distChange = distanceChange;
 		std::stringstream bitmapPath;
 		bitmapPath << "fonts/" << fontName << ".png";
-		TextureCache::preloadTexture(bitmapPath.str().c_str(), fontName);
+		TextureCache::preloadTexture(bitmapPath.str().c_str(), fontName, true, false);
 		_texture = TextureCache::getTexture(fontName);
 		std::stringstream fontPath;
 		fontPath << "fonts/" << fontName << ".fnt";

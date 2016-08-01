@@ -34,6 +34,7 @@ namespace Engine2d
 		);
 
 		void RenderConstantState(
+			ShaderBase * shader,
 			glm::vec2 &position,
 			glm::vec2 &size = glm::vec2(10.0f, 10.0f),
 			glm::vec2 &origin = glm::vec2(0),
