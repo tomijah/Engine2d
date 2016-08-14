@@ -7,12 +7,15 @@ namespace Engine2d {
 		layout(location = 0) in vec2 position;
 		layout(location = 1) in vec2 uv;
 		uniform mat4 model;
+		uniform vec4 uvTransform;
 		uniform mat4 projection;
 		out vec2 fragPosition;
+		out vec2 UV;
 
 		void main() {
 			gl_Position = projection * model * vec4(position.xy, 0.0, 1.0);
 			fragPosition = position;
+			UV = (uv * uvTransform.zw) + uvTransform.xy;
 		}
 	);
 
@@ -20,8 +23,11 @@ namespace Engine2d {
 		#version 330 core\n
 
 		out vec4 color;
+		uniform sampler2D texture1;
 		uniform vec4 spriteColor;
+		uniform int emptyTexture;
 		in vec2 fragPosition;
+		in vec2 UV;
 
 		void main()
 		{
@@ -29,6 +35,14 @@ namespace Engine2d {
 			float delta = fwidth(dist);
 			float alpha = smoothstep(0.5f - delta, 0.5f, dist);
 			color = spriteColor * vec4(1, 1, 1, 1 - alpha);
+
+			if (emptyTexture == 1) {
+				color = spriteColor * vec4(1, 1, 1, 1 - alpha);
+			}
+			else {
+				vec4 texColor = texture(texture1, UV);
+				color = spriteColor * vec4(1, 1, 1, 1 - alpha) * texColor;
+			}
 		}
 	);
 

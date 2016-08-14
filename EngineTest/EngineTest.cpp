@@ -1,16 +1,22 @@
 #include <iostream>
 #include "TestGame.h"
 #include <string>
+#include "GravityGame.h"
 
 using namespace Engine2d;
 
-void game() {
-	TestGame gb(800, 600);
-	gb.Run();
+void testGame() {
+	TestGame tg(800, 600);
+	tg.Run();
+}
+
+void gravity() {
+	GravityGame gg;
+	gg.Run();
 }
 
 int main(int argc, char** argv)
 {
-	game();
+	gravity();
     return 0;
 }

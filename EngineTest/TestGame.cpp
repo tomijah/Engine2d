@@ -3,7 +3,6 @@
 #include "TextureCache.h"
 #include <glm/glm.hpp>
 #include <sstream>
-#include <Utils.h>
 #include "SpriteRendererShader.h"
 #include "SdfTextShader.h"
 #include "SdfShapeShader.h"
@@ -59,7 +58,7 @@ void TestGame::Update()
 	}
 
 	if (inputManager->isKeyDown(SDLK_d)) {
-		camera->translatePosition(glm::vec2(0.2f * deltaTime, 0.0f));
+		camera->translatePosition(glm::vec2(0.2f * deltaTime * (1 / scale), 0.0f));
 		locked = false;
 	}
 
@@ -68,17 +67,17 @@ void TestGame::Update()
 	}
 
 	if (inputManager->isKeyDown(SDLK_a)) {
-		camera->translatePosition(glm::vec2(-0.2f * deltaTime, 0.0f));
+		camera->translatePosition(glm::vec2(-0.2f * deltaTime * (1 / scale), 0.0f));
 		locked = false;
 	}
 
 	if (inputManager->isKeyDown(SDLK_w)) {
-		camera->translatePosition(glm::vec2(0.0f, -0.2f * deltaTime));
+		camera->translatePosition(glm::vec2(0.0f, -0.2f * deltaTime * (1 / scale)));
 		locked = false;
 	}
 
 	if (inputManager->isKeyDown(SDLK_s)) {
-		camera->translatePosition(glm::vec2(0.0f, 0.2f * deltaTime));
+		camera->translatePosition(glm::vec2(0.0f, 0.2f * deltaTime * (1 / scale)));
 		locked = false;
 	}
 
@@ -94,10 +93,10 @@ void TestGame::Update()
 
 	if (inputManager->getWheel() != 0.0f) {
 		if (inputManager->getWheel() > 0.0f) {
-			scale = scale * 2;
+			scale = scale * 1.2f;
 		}
 		else {
-			scale = scale / 2;
+			scale = scale / 1.2f;
 		}
 
 		scale = glm::max(scale, 0.0f);
@@ -151,7 +150,9 @@ void TestGame::Draw()
 
 void TestGame::drawInternal()
 {
-	renderer->Render("1", glm::vec2(0.0f, 0.0f), glm::vec2(800, 600), glm::vec2(0, 0), 0, glm::vec4(1), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+	TextureCache::getTexture("1")->Bind();
+	sdfShader->Use();
+	renderer->RenderConstantState(sdfShader, glm::vec2(400, 300), glm::vec2(240, 240), glm::vec2(120, 120), 0.0f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	renderer->Render(
 		"a",
 		playerPosition,
@@ -163,11 +164,6 @@ void TestGame::drawInternal()
 
 	fire->Draw(camera);
 	smoke->Draw(camera);
-
-	//TextureCache::getTexture("circle")->Bind();
-	sdfShader->Use();
-	renderer->RenderConstantState(sdfShader, glm::vec2(200, 100), glm::vec2(120, 120), glm::vec2(60, 60), 0.0f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-
 }
 
 void TestGame::handlePlayerAnimation()
@@ -275,16 +271,15 @@ void TestGame::Initialize()
 	TextureCache::preloadTexture("textures/cur.png", "cur");
 	TextureCache::preloadTexture("textures/flame1.jpg", "f1");
 	TextureCache::preloadTexture("textures/smoke_particle.png", "s1");
-	TextureCache::preloadTexture("textures/tiles.png", "1");
+	TextureCache::preloadTexture("textures/grasslight-big.jpg", "1", true, true);
 	TextureCache::preloadTexture("textures/anim.png", "a");
-	TextureCache::preloadTexture("textures/circle.png", "circle", true, true);
 	animation = new Animation(TextureCache::getTexture("a"), 4, 8, 100);
 	smoke = new ParticlePool(400, 2500.0f, "s1", glm::vec2(60.0f, 60.0f), glm::vec2(0.00005f, 0.0f));
-	fire = new ParticlePool(1500, 1000.0f, "f1", glm::vec2(30.0f, 30.0f), glm::vec2(0.0f, 0.0f), true);
+	fire = new ParticlePool(1500, 1000.0f, "f1", glm::vec2(15.0f, 15.0f), glm::vec2(0.0f, 0.0f), true);
 	fire->SeTColor(glm::vec3(1.0f, 0.2f, 0.0f));
 	fireSource = new FireSource(fire, glm::vec2(600.0f, 400.0f));
 	smoke->SeTColor(glm::vec3(1.0f, 1.0f, 1.0f));
 
-	playerPosition.x = 100.0f;
-	playerPosition.y = 100.0f;
+	playerPosition.x = 400;
+	playerPosition.y = 300;
 }

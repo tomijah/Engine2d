@@ -14,7 +14,8 @@ namespace Engine2d
 		out vec2 UV;
 
 		void main() {
-			gl_Position = projection * ((model * vec4(modelPos.xy, 0.0, 1.0)) + position);
+			vec4 p = vec4(position.x, position.y, 0.0, 0.0);
+			gl_Position = projection * ((model * vec4(modelPos.xy, 0.0, 1.0)) + p);
 			UV = uv;
 		}
 	);

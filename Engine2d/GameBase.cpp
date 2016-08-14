@@ -1,6 +1,6 @@
 #include "GameBase.h"
 #include <math.h>
-
+#include <algorithm>
 using namespace std;
 
 namespace Engine2d 
@@ -35,7 +35,7 @@ namespace Engine2d
 		glEnable(GL_MULTISAMPLE);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		//vsync
-		//SDL_GL_SetSwapInterval(1);
+		SDL_GL_SetSwapInterval(1);
 
 		_display->DisableCursor();
 

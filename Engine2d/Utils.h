@@ -1,5 +1,9 @@
 #pragma once
 #include <random>
+#include "Camera2d.h"
+#include "ShaderBase.h"
+#include "Display.h"
+#include "GameBase.h"
 
 namespace Engine2d {
 	#define MULTI_LINE_STRING(a) #a

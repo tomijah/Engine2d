@@ -1,5 +1,4 @@
 #pragma once
-#include "GameBase.h"
 #include "InputManager.h"
 #include "SpriteRenderer.h"
 #include "PostProcessor.h"
@@ -8,8 +7,8 @@
 #include "ShakeEffect.h"
 #include "FireSource.h"
 #include "Animation.h"
-#include "ShaderBase.h"
 #include "BitmapFontRenderer.h"
+#include "Utils.h"
 
 using namespace Engine2d;
 

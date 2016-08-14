@@ -6,6 +6,11 @@ namespace Engine2d
 
 	Texture* TextureCache::getTexture(std::string name)
 	{
+		Texture * result = _textureMap[name];
+
+		if (result == nullptr) {
+			throw std::runtime_error("texture not preloaded");
+		}
 		return _textureMap[name];
 	}
 
