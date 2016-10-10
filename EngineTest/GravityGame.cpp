@@ -78,8 +78,8 @@ void GravityGame::Update()
 		throttleVector = glm::rotate(throttleVector, rocket->getBody()->GetAngle());
 		throttleVector = throttleVector * 0.03f;
 		force = force + b2Vec2(throttleVector.x, throttleVector.y);
-		//if(rocket->getBody()->GetLinearVelocity().Length()<2.0f)
-		//emitSmoke(deltaTime, glm::vec2(-throttleVector.x*0.05f, -throttleVector.y*0.05f) , glm::vec2(rocket->getBody()->GetPosition().x - throttleVector.x * 8.5f, rocket->getBody()->GetPosition().y - throttleVector.y * 8.5f));
+		if(rocket->getBody()->GetLinearVelocity().Length()<2.0f)
+		emitSmoke(deltaTime, glm::vec2(-throttleVector.x*0.05f, -throttleVector.y*0.05f) , glm::vec2(rocket->getBody()->GetPosition().x - throttleVector.x * 8.5f, rocket->getBody()->GetPosition().y - throttleVector.y * 8.5f));
 	}
 
 	rocket->getBody()->ApplyForceToCenter(force, true);
@@ -113,7 +113,7 @@ void GravityGame::Draw()
 	std::stringstream ss;
 	ss << "Fps: " << fps;
 	textRenderer->Start();
-	//textRenderer->DrawString(ss.str(), glm::vec2(5.0f, 5.0f), 0.3f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	textRenderer->DrawString(ss.str(), glm::vec2(5.0f, 5.0f), 2.0f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	textRenderer->DrawString("ship", glm::vec2(400.0f, 300.0f), 0.2f, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	textRenderer->Stop();
 

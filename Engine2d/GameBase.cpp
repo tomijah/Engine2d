@@ -26,6 +26,7 @@ namespace Engine2d
 		//glEnable(GL_DEPTH_TEST);
 		glEnable(GL_STENCIL_TEST);
 		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 
 		//blending
 		glEnable(GL_BLEND);
@@ -35,7 +36,7 @@ namespace Engine2d
 		glEnable(GL_MULTISAMPLE);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		//vsync
-		SDL_GL_SetSwapInterval(1);
+		//SDL_GL_SetSwapInterval(1);
 
 		_display->DisableCursor();
 

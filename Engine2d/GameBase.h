@@ -16,9 +16,9 @@ namespace Engine2d
 		virtual void Initialize() = 0;
 	protected:
 		InputManager* inputManager;
-		float fps;
-		float totalTime;
-		float deltaTime;
+		float fps = 0;
+		float totalTime = 0;
+		float deltaTime = 0;
 		int width;
 		int height;
 		Display* _display;
